@@ -40,6 +40,10 @@ state_abbreviations = [
 for state in state_abbreviations:
     new_dict[state]={}
 
+
+#handle WV missing data
+new_dict["WV"]={'2005':[0, 0], '2006': [0, 0]}
+
 for i in record:
     year=str(i["Year"])
     state=i["State"]["Code"]
@@ -47,8 +51,12 @@ for i in record:
         low_income_score=i["Family Income"]["Less than 20k"]["Math"]+i["Family Income"]["Less than 20k"]["Verbal"]
         high_income_score=i["Family Income"]["More than 100k"]["Math"]+i["Family Income"]["More than 100k"]["Verbal"]
 
+        if low_income_score<600:#eliminate missing data
+            new_dict[state][year]=[0, 0]
+        else:
+            new_dict[state][year]=[low_income_score, high_income_score]
 
-        new_dict[state][year]=[low_income_score, high_income_score]
+
 
 f2 = open("data/data.json", "w")
 json.dump(new_dict, f2, indent = 4)
