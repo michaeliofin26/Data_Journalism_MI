@@ -1,0 +1,15 @@
+svg{
+    border-style: solid;
+    border-width: 1px;
+}
+
+.axis {
+    stroke: #333333;
+    stroke-width: 2;
+}
+
+p, h3 {
+    margin-top:30px;
+    margin-right: 70px;
+    margin-left: 20px;
+}

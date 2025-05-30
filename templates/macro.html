@@ -1,0 +1,133 @@
+
+<html>
+<head>
+  <title>School Scores</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  {% include 'nav.html' %}
+
+
+  <h1>School Scores by Income Level</h1>
+
+
+
+  <div>
+    {% include 'states.svg' %}
+  </div>
+
+  <input type="range" min="2005" max="2015" value="2005" class="slider" id="yearSlider">
+
+  <div id="year text">
+    Year: 2005
+  </div>
+
+
+  {% include 'footer.html' %}
+
+  
+
+
+  <script>
+    stateNames = {
+      "Alabama": "AL",
+      "Alaska": "AK",
+      "Arizona": "AZ",
+      "Arkansas": "AR",
+      "California": "CA",
+      "Colorado": "CO",
+      "Connecticut": "CT",
+      "Delaware": "DE",
+      "Florida": "FL",
+      "Georgia": "GA",
+      "Hawaii": "HI",
+      "Idaho": "ID",
+      "Illinois": "IL",
+      "Indiana": "IN",
+      "Iowa": "IA",
+      "Kansas": "KS",
+      "Kentucky": "KY",
+      "Louisiana": "LA",
+      "Maine": "ME",
+      "Maryland": "MD",
+      "Massachusetts": "MA",
+      "Michigan": "MI",
+      "Minnesota": "MN",
+      "Mississippi": "MS",
+      "Missouri": "MO",
+      "Montana": "MT",
+      "Nebraska": "NE",
+      "Nevada": "NV",
+      "New Hampshire": "NH",
+      "New Jersey": "NJ",
+      "New Mexico": "NM",
+      "New York": "NY",
+      "North Carolina": "NC",
+      "North Dakota": "ND",
+      "Ohio": "OH",
+      "Oklahoma": "OK",
+      "Oregon": "OR",
+      "Pennsylvania": "PA",
+      "Rhode Island": "RI",
+      "South Carolina": "SC",
+      "South Dakota": "SD",
+      "Tennessee": "TN",
+      "Texas": "TX",
+      "Utah": "UT",
+      "Vermont": "VT",
+      "Virginia": "VA",
+      "Washington": "WA",
+      "West Virginia": "WV",
+      "Wisconsin": "WI",
+      "Wyoming": "WY",
+      "District of Columbia": "DC"
+    };
+
+
+
+    slider=document.getElementById("yearSlider");
+
+    let year=0;
+    data = {{data_dict|tojson}};
+
+    update = function(){
+      for(key in data){
+        ineq=data[key][year];
+        console.log(ineq);
+
+        
+        if(ineq <=0){
+          document.getElementById(key).setAttribute('fill', 'grey');
+        }
+        else{
+          factor=Math.min(0.5, Math.max(1.5-ineq, 0.15));
+          document.getElementById(key).setAttribute('fill', `hsl(230, ${170*factor}%, ${170*factor}%)`);
+        }
+      }
+    }
+    
+    update();
+
+
+    slider.oninput=function(){
+      year=slider.value-2005;
+
+      document.getElementById("year text").textContent="Year: "+slider.value;
+
+
+      
+      update();
+
+    }
+
+    
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+
+</body>
+</html>

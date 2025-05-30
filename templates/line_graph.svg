@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600">
+
+    
+
+
+
+    <polyline stroke="black" fill="none" points="{% for point in high_endpoints%} {{80+60*(point[0]-2005)}},{{380-(point[1]-800)*0.5}} {% endfor %}"/>
+    <polyline stroke="red" fill="none" points="{% for point in low_endpoints%} {{80+60*(point[0]-2005)}},{{380-(point[1]-800)*0.5}} {% endfor %}"/>
+
+
+    <!--Average data-->
+    <polyline stroke-dasharray="5, 3" stroke="grey" fill="none" points="{% for point in avg_high%} {{80+60*(point[0]-2005)}},{{380-(point[1]-800)*0.5}} {% endfor %}"/>
+    <polyline stroke-dasharray="5, 3" stroke="darkred" fill="none" points="{% for point in avg_low%} {{80+60*(point[0]-2005)}},{{380-(point[1]-800)*0.5}} {% endfor %}"/>
+
+
+
+
+
+     <!--X-axis tickmarks-->
+     {% for i in range(0, 11)%}
+          <line  stroke-width="2" x1="{{80+60*i}}" y1="460" x2="{{80+60*i}}" y2="465" stroke="black"/>
+          <text x="{{80+60*i}}" y="475" font-size="3mm">{{(2005+i) | string}}</text>
+     {% endfor %}
+     <text x="400" y="500" text-anchor="middle">Year</text>
+
+     <!--y-axis tickmarks-->
+     {% for i in range(700, 1400, 100)%}
+          <line  stroke-width="2" x1="75" y1="{{380-(i-800)*0.5}}" x2="80" y2="{{380-(i-800)*0.5}}" stroke="black"/>
+          <text text-anchor="end" x="70" y="{{380-(i-800)*0.5}}" font-size="3mm">{{i|string}}</text>
+     {% endfor %}
+     <text x="30" y="250" transform="rotate(-90, 30, 250)" text-anchor="middle">SAT Score</text>
+
+
+    <!--axes-->
+     <line class="axis" x1="80" y1="460" x2="700" y2="460" />
+     <line class="axis" x1="80" y1="460" x2="80" y2="80" />
+
+
+
+    <!--Legend-->
+    <line x1="750", x2="770", y1="300", y2="300", stroke="black"/>
+    <line x1="750", x2="770", y1="330", y2="330", stroke="red"/>
+
+    <line x1="750", x2="770", y1="360", y2="360", stroke="grey" stroke-dasharray="5, 3"/>
+    <line x1="750", x2="770", y1="390", y2="390", stroke="darkred" stroke-dasharray="5, 3"/>
+
+    <text x="780" y="303" font-size="3mm">{{state_dict[request.args.get('state')]}} high income average</text>
+    <text x="780" y="333" font-size="3mm">{{state_dict[request.args.get('state')]}} low income average</text>
+    <text x="780" y="363" font-size="3mm">National high income average</text>
+    <text x="780" y="393" font-size="3mm">National low income average</text>
+
+   
+
+
+     
+
+
+</svg>
